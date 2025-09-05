@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-// Assume you have pic2.png in 'src/assets/images/'
 import SabiLogo from '../assets/images/pic2.png';
 
 const loaderVariants = {
@@ -17,7 +16,7 @@ const loaderVariants = {
 
 const SabiLoader = () => {
   return (
-    <div className="flex flex-col items-center justify-center h-full w-full bg-white bg-opacity-90">
+    <div className="flex flex-col items-center justify-center h-full w-full bg-sabi-white bg-opacity-90">
       <motion.div
         variants={loaderVariants}
         animate="animation"

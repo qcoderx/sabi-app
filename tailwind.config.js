@@ -5,18 +5,26 @@ export default {
     extend: {
       colors: {
         sabi: {
-          green: "#9FC131", // A vibrant, techy green from the logo
-          blue: "#007CC3", // A deep, trustworthy blue
-          dark: "#1A202C", // For primary text
+          green: "#9FC131",
+          blue: "#007CC3",
+          dark: "#1A202C",
           gray: {
-            DEFAULT: "#A0AEC0", // For secondary text
-            light: "#F7FAFC", // For backgrounds
+            DEFAULT: "#A0AEC0",
+            light: "#F7FAFC",
             card: "#FFFFFF",
           },
+          white: "#FFFFFF",
+          black: "#000000",
+          red: "#FF0000",
+          orange: "#FFA500",
+          yellow: "#FFFF00",
+          purple: "#800080",
+          pink: "#FFC0CB",
+          brown: "#A52A2A",
         },
       },
       fontFamily: {
-        sans: ["Inter", "sans-serif"], // Using Inter for a clean, modern UI
+        sans: ["Inter", "sans-serif"],
       },
       boxShadow: {
         'soft': '0 4px 15px rgba(0, 0, 0, 0.05)',

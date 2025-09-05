@@ -25,12 +25,12 @@ const ComingSoonModal = ({ onClose }) => {
       animate="visible"
       exit="hidden"
       onClick={onClose}
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-6"
+      className="fixed inset-0 bg-sabi-black bg-opacity-50 flex items-center justify-center z-50 p-6"
     >
       <motion.div
         variants={modalVariants}
         onClick={(e) => e.stopPropagation()}
-        className="relative bg-white rounded-2xl w-full max-w-sm p-8 text-center"
+        className="relative bg-sabi-white rounded-2xl w-full max-w-sm p-8 text-center"
       >
         <motion.button
             whileTap={{ scale: 0.9 }}
@@ -41,7 +41,7 @@ const ComingSoonModal = ({ onClose }) => {
         </motion.button>
 
         <div className="w-20 h-20 mx-auto bg-gradient-to-br from-sabi-green to-green-400 rounded-full flex items-center justify-center">
-            <Rocket size={40} className="text-white"/>
+            <Rocket size={40} className="text-sabi-white"/>
         </div>
 
         <h3 className="text-2xl font-bold mt-6 text-sabi-dark">Coming Soon!</h3>
@@ -52,7 +52,7 @@ const ComingSoonModal = ({ onClose }) => {
         <motion.button
           whileTap={{ scale: 0.95 }}
           onClick={onClose}
-          className="w-full mt-8 bg-sabi-green text-white font-bold py-3 rounded-xl"
+          className="w-full mt-8 bg-sabi-green text-sabi-white font-bold py-3 rounded-xl"
         >
           Got It
         </motion.button>
