@@ -4,22 +4,19 @@ import { ArrowLeft, Bell, ScanLine, Wallet, Send, BusFront, BarChart3 } from 'lu
 import { useLoader } from '../context/LoaderContext';
 import SabiShuttleLogo from '../assets/images/pic1.png';
 
-// --- Mock Data (Now can be empty to test the empty state) ---
+// --- Mock Data ---
 const mockTransactions = [
   { id: 1, shuttle: 'Jaja Hall to Main Gate', amount: 100, date: new Date('2025-09-04T08:30:00') },
   { id: 2, shuttle: 'CITS to New Hall', amount: 50, date: new Date('2025-09-04T09:15:00') },
   { id: 3, shuttle: 'Gate to DLI', amount: 100, date: new Date('2025-09-03T14:00:00') },
   { id: 4, shuttle: 'Amphitheatre to Highrise', amount: 50, date: new Date('2025-09-03T16:45:00') },
-  { id: 5, shuttle: 'El-Kanemi to CITS', amount: 50, date: new Date('2025-09-02T11:20:00') },
-  { id: 6, shuttle: 'Faculty of Law to Library', amount: 100, date: new Date('2025-09-01T10:00:00')},
 ];
-// const mockTransactions = []; // <-- UNCOMMENT THIS LINE TO SEE THE EMPTY STATE
+// const mockTransactions = []; // <-- UNCOMMENT TO TEST EMPTY STATE
 
 const mockBalance = 2500.50;
 
 // --- Helper Functions ---
 const groupTransactionsByDate = (transactions) => {
-    // ... (logic remains the same)
     const groups = transactions.reduce((groups, tx) => {
         const date = tx.date.toDateString();
         if (!groups[date]) { groups[date] = []; }
@@ -30,7 +27,6 @@ const groupTransactionsByDate = (transactions) => {
 };
 
 const formatDateHeader = (date) => {
-    // Current date is Friday, Sep 5, 2025
     const today = new Date('2025-09-05'); 
     const yesterday = new Date('2025-09-04');
     if (date.toDateString() === today.toDateString()) return 'Today';
@@ -38,7 +34,6 @@ const formatDateHeader = (date) => {
     return date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
 };
 
-// --- NEW HELPER FOR THE CHART ---
 const getSpendingByDay = (transactions) => {
   const days = {'Sun': 0, 'Mon': 0, 'Tue': 0, 'Wed': 0, 'Thu': 0, 'Fri': 0, 'Sat': 0};
   transactions.forEach(tx => {
@@ -48,13 +43,11 @@ const getSpendingByDay = (transactions) => {
   return days;
 };
 
-
-// --- The Transcendent Screen Component ---
 const ShuttlePayScreen = ({ onBack }) => {
   const { performAction } = useLoader();
   const groupedTransactions = groupTransactionsByDate(mockTransactions);
   const spendingData = getSpendingByDay(mockTransactions);
-  const maxSpending = Math.max(...Object.values(spendingData), 1); // Avoid division by zero
+  const maxSpending = Math.max(...Object.values(spendingData), 1);
 
   const handleActionClick = (actionName) => {
     performAction(() => {
@@ -62,22 +55,20 @@ const ShuttlePayScreen = ({ onBack }) => {
     });
   };
 
-  // --- NEW Empty State Component ---
   const EmptyState = () => (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       className="text-center py-20 px-6"
     >
-      <div className="inline-block p-5 bg-sabi-gray-light rounded-full">
+      <div className="inline-block p-5 bg-sabi-gray-light dark:bg-sabi-dark-blue rounded-full">
         <BusFront size={48} className="text-sabi-gray" />
       </div>
-      <h3 className="mt-4 text-xl font-bold text-sabi-dark">No Trips Yet</h3>
-      <p className="mt-1 text-sabi-gray">Your recent shuttle trips will appear here once you take your first ride.</p>
+      <h3 className="mt-4 text-xl font-bold text-sabi-dark dark:text-sabi-white">No Trips Yet</h3>
+      <p className="mt-1 text-sabi-gray">Your recent shuttle trips will appear here.</p>
     </motion.div>
   );
 
-  // --- NEW Spending Snapshot Chart Component ---
   const SpendingSnapshot = () => (
     <motion.div
       initial={{ opacity: 0, y: -20 }}
@@ -85,11 +76,11 @@ const ShuttlePayScreen = ({ onBack }) => {
       transition={{ delay: 0.2 }}
       className="mb-6"
     >
-      <h2 className="text-lg font-bold text-sabi-dark mb-4 flex items-center">
+      <h2 className="text-lg font-bold text-sabi-dark dark:text-sabi-white mb-4 flex items-center">
         <BarChart3 size={20} className="mr-2 text-sabi-blue" />
         Spending Snapshot
       </h2>
-      <div className="p-4 bg-sabi-gray-light rounded-2xl">
+      <div className="p-4 bg-sabi-gray-light dark:bg-sabi-dark-blue rounded-2xl">
         <div className="flex justify-between items-end h-32 space-x-2">
           {['Mon', 'Tue', 'Wed', 'Thu', 'Fri'].map(day => (
             <div key={day} className="flex-1 flex flex-col items-center justify-end">
@@ -108,10 +99,8 @@ const ShuttlePayScreen = ({ onBack }) => {
   );
 
   return (
-    // OVERFLOW FIX: The root div now has a fixed height and overflow-hidden,
-    // ensuring child elements with scrolling behave predictably.
-    <div className="flex flex-col h-full w-full bg-sabi-gray-light overflow-hidden">
-      {/* --- HERO SECTION (Unchanged) --- */}
+    // --- FIX: Added dark theme class to main container ---
+    <div className="flex flex-col h-full w-full bg-sabi-gray-light dark:bg-sabi-dark-blue overflow-hidden">
       <motion.div 
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -129,15 +118,13 @@ const ShuttlePayScreen = ({ onBack }) => {
         </div>
       </motion.div>
 
-      {/* --- SCROLLABLE CONTENT --- */}
-      {/* OVERFLOW FIX: Added min-h-0 to the flex-1 container to solve flexbox calculation issues. */}
       <main className="flex-1 overflow-y-auto min-h-0">
-        <div className="bg-sabi-white rounded-t-3xl -mt-6 relative z-10 pt-6 px-6">
-          {/* Conditional Rendering: Show chart/list OR the empty state */}
+        {/* --- FIX: Added dark theme class to scrollable content area --- */}
+        <div className="bg-sabi-white dark:bg-sabi-dark-blue-light rounded-t-3xl -mt-6 relative z-10 pt-6 px-6">
           {groupedTransactions.length > 0 ? (
             <>
               <SpendingSnapshot />
-              <h2 className="text-lg font-bold text-sabi-dark mb-4">Recent Trips</h2>
+              <h2 className="text-lg font-bold text-sabi-dark dark:text-sabi-white mb-4">Recent Trips</h2>
               <div className="space-y-4">
                 {groupedTransactions.map(({ date, transactions }) => (
                   <div key={date.toString()}>
@@ -150,11 +137,15 @@ const ShuttlePayScreen = ({ onBack }) => {
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ duration: 0.5, delay: 0.1 * tx.id }}
                           whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
-                          className="flex items-center p-3 bg-sabi-gray-light rounded-xl cursor-pointer"
+                          // --- FIX: Added dark theme classes to transaction items ---
+                          className="flex items-center p-3 bg-sabi-gray-light dark:bg-sabi-dark-blue rounded-xl cursor-pointer"
                         >
-                          <div className="p-3 bg-sabi-white rounded-full shadow-soft"><BusFront size={20} className="text-sabi-blue" /></div>
-                          <div className="flex-1 ml-4"><p className="font-semibold text-sabi-dark">{tx.shuttle}</p><p className="text-xs text-sabi-gray">{tx.date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}</p></div>
-                          <p className="font-bold text-sabi-dark text-base">-₦{tx.amount}</p>
+                          <div className="p-3 bg-sabi-white dark:bg-sabi-dark-blue-light rounded-full shadow-soft"><BusFront size={20} className="text-sabi-blue" /></div>
+                          <div className="flex-1 ml-4">
+                            <p className="font-semibold text-sabi-dark dark:text-sabi-white">{tx.shuttle}</p>
+                            <p className="text-xs text-sabi-gray">{tx.date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}</p>
+                          </div>
+                          <p className="font-bold text-sabi-dark dark:text-sabi-white text-base">-₦{tx.amount}</p>
                         </motion.div>
                       ))}
                     </div>
@@ -165,13 +156,12 @@ const ShuttlePayScreen = ({ onBack }) => {
           ) : (
             <EmptyState />
           )}
-          {/* Padding at the bottom to ensure last item doesn't stick to the footer */}
           <div className="h-6" /> 
         </div>
       </main>
 
-      {/* --- FOOTER CTA --- */}
-      <footer className="p-6 bg-sabi-white border-t border-gray-100 relative z-20 flex-shrink-0">
+      {/* --- FIX: Added dark theme classes to footer --- */}
+      <footer className="p-6 bg-sabi-white dark:bg-sabi-dark-blue-light border-t border-gray-100 dark:border-gray-800 relative z-20 flex-shrink-0">
         <motion.button
           onClick={() => handleActionClick('Scan to Pay')}
           whileHover={{ scale: 1.03 }}

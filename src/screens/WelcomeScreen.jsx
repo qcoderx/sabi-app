@@ -26,9 +26,9 @@ const itemVariants = {
   },
 };
 
-const WelcomeScreen = ({ onConnect }) => {
+const WelcomeScreen = ({ onNext }) => {
   return (
-    <div className="flex flex-col h-full w-full bg-sabi-white">
+    <div className="flex flex-col h-full w-full bg-sabi-white dark:bg-sabi-dark-blue">
       <div className="flex-1 flex items-center justify-center p-8">
         <motion.div
           variants={containerVariants}
@@ -45,7 +45,7 @@ const WelcomeScreen = ({ onConnect }) => {
 
           <motion.h1
             variants={itemVariants}
-            className="text-4xl font-extrabold text-sabi-dark tracking-tight"
+            className="text-4xl font-extrabold text-sabi-dark dark:text-sabi-white tracking-tight"
           >
             Welcome to Sabi.
           </motion.h1>
@@ -63,24 +63,20 @@ const WelcomeScreen = ({ onConnect }) => {
         initial={{ y: '100%' }}
         animate={{ y: '0%' }}
         transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 1.2 }}
-        className="p-6 border-t border-gray-200 bg-sabi-white"
+        className="p-6 border-t border-gray-200 dark:border-gray-100/10 bg-sabi-white dark:bg-sabi-dark-blue"
       >
         <motion.button
-          onClick={onConnect}
+          onClick={onNext}
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.98 }}
           transition={{ type: 'spring', stiffness: 400, damping: 15 }}
           className="w-full flex items-center justify-center space-x-3 bg-sabi-blue text-sabi-white font-bold py-4 rounded-2xl shadow-lg shadow-sabi-blue/30"
         >
-          <Wallet size={20} />
-          <span>Connect Wallet to Begin</span>
+          <span>Get Started</span>
           <ArrowRight size={20} />
         </motion.button>
         <p className="text-center mt-4 text-xs text-sabi-gray">
-          Don't have a wallet?{' '}
-          <a href="#" className="font-semibold text-sabi-blue underline">
-            Learn how
-          </a>
+          By continuing, you agree to our Terms of Service.
         </p>
       </motion.div>
     </div>
