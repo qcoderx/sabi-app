@@ -4,24 +4,31 @@ import { useLoader } from './context/LoaderContext';
 
 import SplashScreen from './screens/SplashScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
-import SabiDashboardScreen from './screens/SabiDashboardScreen'; // New Import
-import ShuttlePayScreen from './screens/ShuttlePayScreen'; // Renamed Import
+import SabiDashboardScreen from './screens/SabiDashboardScreen';
+import ShuttlePayScreen from './screens/ShuttlePayScreen';
+import DriverLoginScreen from './screens/driver/DriverLoginScreen';
+import DriverDashboardScreen from './screens/driver/DriverDashboardScreen';
+import QRCodeScreen from './screens/driver/QRCodeScreen';
+import SettingsScreen from './screens/SettingsScreen';
 
 function AppContent() {
-  // Updated state machine: loading -> welcome -> dashboard -> service
   const [appState, setAppState] = useState('loading');
   const { performAction } = useLoader();
 
   const handleConnect = () => {
     performAction(() => {
-      setAppState('dashboard'); // Go to dashboard after connecting
+      setAppState('dashboard');
+    });
+  };
+
+  const handleDriverLogin = () => {
+    performAction(() => {
+      setAppState('driverDashboard');
     });
   };
 
   const handleNavigation = (service) => {
-    if (service === 'shuttlePay') {
-      setAppState('shuttlePay'); // Navigate to the selected service
-    }
+    setAppState(service);
   };
 
   return (
@@ -34,10 +41,9 @@ function AppContent() {
       )}
       {appState === 'welcome' && (
         <motion.div key="welcome" className="h-full">
-          <WelcomeScreen onConnect={handleConnect} />
+          <WelcomeScreen onConnect={handleConnect} onNavigateToDriverLogin={() => setAppState('driverLogin')} />
         </motion.div>
       )}
-      {/* New Dashboard State */}
       {appState === 'dashboard' && (
         <motion.div 
             key="dashboard" 
@@ -48,7 +54,6 @@ function AppContent() {
           <SabiDashboardScreen onNavigate={handleNavigation} />
         </motion.div>
       )}
-      {/* Renamed Shuttle Pay State */}
       {appState === 'shuttlePay' && (
         <motion.div
           key="shuttlePay"
@@ -57,6 +62,26 @@ function AppContent() {
           className="h-full"
         >
           <ShuttlePayScreen onBack={() => setAppState('dashboard')} />
+        </motion.div>
+      )}
+      {appState === 'driverLogin' && (
+        <motion.div key="driverLogin" className="h-full">
+          <DriverLoginScreen onLogin={handleDriverLogin} onNavigateToSignUp={() => {}} />
+        </motion.div>
+      )}
+      {appState === 'driverDashboard' && (
+        <motion.div key="driverDashboard" className="h-full">
+          <DriverDashboardScreen onNavigate={handleNavigation} />
+        </motion.div>
+      )}
+      {appState === 'qrCode' && (
+        <motion.div key="qrCode" className="h-full">
+          <QRCodeScreen onBack={() => setAppState('driverDashboard')} />
+        </motion.div>
+      )}
+      {appState === 'settings' && (
+        <motion.div key="settings" className="h-full">
+          <SettingsScreen onBack={() => setAppState('dashboard')} userType="Student" />
         </motion.div>
       )}
     </AnimatePresence>

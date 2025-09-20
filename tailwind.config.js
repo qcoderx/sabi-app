@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class', // Add this line
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
@@ -8,6 +9,9 @@ export default {
           green: "#9FC131",
           blue: "#007CC3",
           dark: "#1A202C",
+          // Add these new dark theme colors
+          'dark-blue': '#1A202C',
+          'dark-blue-light': '#2D3748',
           gray: {
             DEFAULT: "#A0AEC0",
             light: "#F7FAFC",
@@ -15,12 +19,9 @@ export default {
           },
           white: "#FFFFFF",
           black: "#000000",
-          red: "#FF0000",
-          orange: "#FFA500",
-          yellow: "#FFFF00",
-          purple: "#800080",
-          pink: "#FFC0CB",
-          brown: "#A52A2A",
+          red: "#E53E3E", // A better red
+          orange: "#DD6B20",
+          purple: "#805AD5",
         },
       },
       fontFamily: {
