@@ -1,9 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, User, Palette, Bell, Shield, LogOut, ChevronRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 
-const SettingsScreen = ({ onBack, userType = 'Student' }) => {
+const SettingsScreen = () => {
+  const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
 
   const settingsOptions = [
@@ -16,7 +18,7 @@ const SettingsScreen = ({ onBack, userType = 'Student' }) => {
   return (
     <div className="flex flex-col h-full bg-sabi-gray-light dark:bg-sabi-dark-blue">
       <header className="flex items-center p-6 border-b border-gray-200 dark:border-gray-700">
-        <motion.button whileTap={{ scale: 0.9 }} onClick={onBack} className="p-2 -ml-2">
+        <motion.button whileTap={{ scale: 0.9 }} onClick={() => navigate(-1)} className="p-2 -ml-2">
           <ArrowLeft className="text-sabi-dark dark:text-sabi-white" />
         </motion.button>
         <h1 className="text-xl font-bold text-sabi-dark dark:text-sabi-white ml-4">Settings</h1>

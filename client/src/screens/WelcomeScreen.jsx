@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Wallet } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import SabiShuttleLogo from '../assets/images/pic2.png';
 
 const containerVariants = {
@@ -26,7 +27,9 @@ const itemVariants = {
   },
 };
 
-const WelcomeScreen = ({ onNext }) => {
+const WelcomeScreen = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="flex flex-col h-full w-full bg-sabi-white dark:bg-sabi-dark-blue">
       <div className="flex-1 flex items-center justify-center p-8">
@@ -66,7 +69,7 @@ const WelcomeScreen = ({ onNext }) => {
         className="p-6 border-t border-gray-200 dark:border-gray-100/10 bg-sabi-white dark:bg-sabi-dark-blue"
       >
         <motion.button
-          onClick={onNext}
+          onClick={() => navigate('/roles')}
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.98 }}
           transition={{ type: 'spring', stiffness: 400, damping: 15 }}

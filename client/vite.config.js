@@ -1,9 +1,10 @@
+// client/vite.config.js
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-  // Add this line
-  base: './', 
-  
+  // Make sure the base is set to '/'
+  base: '/',
+
   server: {
     host: true,
     port: 5173,

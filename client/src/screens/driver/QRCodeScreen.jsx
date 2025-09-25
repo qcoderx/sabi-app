@@ -1,10 +1,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Printer, Share2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import SabiShuttleLogo from '../../assets/images/pic1.png';
-import QRCodeImage from '../../assets/images/qr-code.png'; // Placeholder QR code
+import QRCodeImage from '../../assets/images/qr-code.png';
 
-const QRCodeScreen = ({ onBack }) => {
+const QRCodeScreen = () => {
+  const navigate = useNavigate();
+
   const handlePrint = () => {
     window.print();
   };
@@ -12,7 +15,7 @@ const QRCodeScreen = ({ onBack }) => {
   return (
     <div className="flex flex-col h-full w-full bg-sabi-gray-light dark:bg-sabi-dark-blue p-6 printable-area">
       <div className="flex justify-between items-center no-print">
-        <motion.button whileTap={{ scale: 0.9 }} onClick={onBack} className="p-2 -ml-2">
+        <motion.button whileTap={{ scale: 0.9 }} onClick={() => navigate(-1)} className="p-2 -ml-2">
           <ArrowLeft size={22} className="text-sabi-dark dark:text-sabi-white" />
         </motion.button>
         <h1 className="text-lg font-bold text-sabi-dark dark:text-sabi-white">Your QR Code</h1>

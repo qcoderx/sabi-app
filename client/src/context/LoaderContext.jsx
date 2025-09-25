@@ -14,10 +14,12 @@ export const LoaderProvider = ({ children }) => {
   const performAction = async (action) => {
     showLoader();
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // The delay gives the animation time to show
+      await new Promise(resolve => setTimeout(resolve, 600)); 
       action();
     } finally {
-      hideLoader();
+      // Hide loader after a short delay to feel smoother
+      setTimeout(() => hideLoader(), 400); 
     }
   };
 

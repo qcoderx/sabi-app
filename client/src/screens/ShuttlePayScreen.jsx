@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Bell, ScanLine, Wallet, Send, BusFront, BarChart3 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useLoader } from '../context/LoaderContext';
 import SabiShuttleLogo from '../assets/images/pic1.png';
 
@@ -11,8 +12,6 @@ const mockTransactions = [
   { id: 3, shuttle: 'Gate to DLI', amount: 100, date: new Date('2025-09-03T14:00:00') },
   { id: 4, shuttle: 'Amphitheatre to Highrise', amount: 50, date: new Date('2025-09-03T16:45:00') },
 ];
-// const mockTransactions = []; // <-- UNCOMMENT TO TEST EMPTY STATE
-
 const mockBalance = 2500.50;
 
 // --- Helper Functions ---
@@ -43,7 +42,8 @@ const getSpendingByDay = (transactions) => {
   return days;
 };
 
-const ShuttlePayScreen = ({ onBack }) => {
+const ShuttlePayScreen = () => {
+  const navigate = useNavigate();
   const { performAction } = useLoader();
   const groupedTransactions = groupTransactionsByDate(mockTransactions);
   const spendingData = getSpendingByDay(mockTransactions);
@@ -99,7 +99,6 @@ const ShuttlePayScreen = ({ onBack }) => {
   );
 
   return (
-    // --- FIX: Added dark theme class to main container ---
     <div className="flex flex-col h-full w-full bg-sabi-gray-light dark:bg-sabi-dark-blue overflow-hidden">
       <motion.div 
         initial={{ y: -50, opacity: 0 }}
@@ -107,7 +106,7 @@ const ShuttlePayScreen = ({ onBack }) => {
         className="bg-gradient-to-br from-sabi-blue to-sabi-green rounded-b-3xl px-6 pt-8 pb-8 text-sabi-white shadow-lg relative z-20 flex-shrink-0"
       >
         <div className="flex justify-between items-center">
-          <motion.button whileTap={{ scale: 0.9 }} onClick={onBack} className="p-2 -ml-2"><ArrowLeft size={22} /></motion.button>
+          <motion.button whileTap={{ scale: 0.9 }} onClick={() => navigate(-1)} className="p-2 -ml-2"><ArrowLeft size={22} /></motion.button>
           <img src={SabiShuttleLogo} alt="Sabi Shuttle Pay" className="h-10 w-auto" />
           <motion.button whileTap={{ scale: 0.9 }} className="p-2 -mr-2"><Bell size={22} /></motion.button>
         </div>
@@ -119,7 +118,6 @@ const ShuttlePayScreen = ({ onBack }) => {
       </motion.div>
 
       <main className="flex-1 overflow-y-auto min-h-0">
-        {/* --- FIX: Added dark theme class to scrollable content area --- */}
         <div className="bg-sabi-white dark:bg-sabi-dark-blue-light rounded-t-3xl -mt-6 relative z-10 pt-6 px-6">
           {groupedTransactions.length > 0 ? (
             <>
@@ -137,7 +135,6 @@ const ShuttlePayScreen = ({ onBack }) => {
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ duration: 0.5, delay: 0.1 * tx.id }}
                           whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
-                          // --- FIX: Added dark theme classes to transaction items ---
                           className="flex items-center p-3 bg-sabi-gray-light dark:bg-sabi-dark-blue rounded-xl cursor-pointer"
                         >
                           <div className="p-3 bg-sabi-white dark:bg-sabi-dark-blue-light rounded-full shadow-soft"><BusFront size={20} className="text-sabi-blue" /></div>
@@ -160,7 +157,6 @@ const ShuttlePayScreen = ({ onBack }) => {
         </div>
       </main>
 
-      {/* --- FIX: Added dark theme classes to footer --- */}
       <footer className="p-6 bg-sabi-white dark:bg-sabi-dark-blue-light border-t border-gray-100 dark:border-gray-800 relative z-20 flex-shrink-0">
         <motion.button
           onClick={() => handleActionClick('Scan to Pay')}

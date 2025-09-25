@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Bus, Wallet, Users, QrCode, Settings, BarChart3, ChevronDown } from 'lucide-react';
-import SabiLogo from '../../assets/images/pic2.png';
+import { Bus, Wallet, Users, QrCode, Settings, BarChart3 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const mockDriverData = {
   name: 'Mr. Ade',
@@ -17,7 +17,8 @@ const mockDriverData = {
   ],
 };
 
-const DriverDashboardScreen = ({ onNavigate }) => {
+const DriverDashboardScreen = () => {
+  const navigate = useNavigate();
   const maxRiders = Math.max(...mockDriverData.dailyData.map(d => d.riders), 1);
 
   return (
@@ -33,7 +34,7 @@ const DriverDashboardScreen = ({ onNavigate }) => {
               <h1 className="text-2xl font-bold text-sabi-dark dark:text-sabi-white -mt-1">{mockDriverData.name}</h1>
             </div>
           </div>
-          <motion.button whileTap={{ scale: 0.9 }} onClick={() => onNavigate('settings')} className="p-2">
+          <motion.button whileTap={{ scale: 0.9 }} onClick={() => navigate('/settings')} className="p-2">
             <Settings className="text-sabi-dark dark:text-sabi-white" />
           </motion.button>
         </div>
@@ -93,7 +94,7 @@ const DriverDashboardScreen = ({ onNavigate }) => {
           className="mt-8"
         >
           <motion.button
-            onClick={() => onNavigate('qrCode')}
+            onClick={() => navigate('/driver/qr')}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.98 }}
             className="w-full flex items-center justify-center space-x-3 bg-sabi-dark dark:bg-sabi-blue text-sabi-white font-bold py-4 rounded-2xl shadow-lg"

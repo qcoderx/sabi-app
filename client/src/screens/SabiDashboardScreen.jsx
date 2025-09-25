@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Bus, Briefcase, Store, Home, Settings } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useLoader } from '../context/LoaderContext';
 import ComingSoonModal from '../components/ComingSoonModal';
-
-import SabiLogo from '../assets/images/pic2.png';
 import SabiShuttleLogo from '../assets/images/pic1.png';
 
 const user = {
@@ -22,13 +21,14 @@ const itemVariants = {
   visible: { y: 0, opacity: 1, transition: { type: 'spring', stiffness: 100 } },
 };
 
-const SabiDashboardScreen = ({ onNavigate }) => {
+const SabiDashboardScreen = () => {
+  const navigate = useNavigate();
   const { performAction } = useLoader();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleServiceNavigation = (service) => {
     performAction(() => {
-      onNavigate(service);
+      navigate(service);
     });
   };
 
@@ -40,7 +40,6 @@ const SabiDashboardScreen = ({ onNavigate }) => {
         {isModalOpen && <ComingSoonModal onClose={() => setIsModalOpen(false)} />}
       </AnimatePresence>
 
-      {/* --- FIX: Added dark theme classes to the main container --- */}
       <div className="flex flex-col h-full bg-sabi-gray-light dark:bg-sabi-dark-blue overflow-y-auto">
         <header className="px-6 pt-8 pb-4">
           <div className="flex justify-between items-center">
@@ -50,11 +49,10 @@ const SabiDashboardScreen = ({ onNavigate }) => {
               </div>
               <div>
                 <p className="text-sabi-gray text-sm">Welcome back,</p>
-                {/* FIX: Added dark theme text color */}
                 <h1 className="text-2xl font-bold text-sabi-dark dark:text-sabi-white -mt-1">{user.name}</h1>
               </div>
             </div>
-            <motion.button whileTap={{ scale: 0.9 }} onClick={() => onNavigate('settings')} className="p-2">
+            <motion.button whileTap={{ scale: 0.9 }} onClick={() => navigate('/settings')} className="p-2">
               <Settings className="text-sabi-dark dark:text-sabi-white" />
             </motion.button>
           </div>
@@ -68,7 +66,7 @@ const SabiDashboardScreen = ({ onNavigate }) => {
         >
           <motion.div
             variants={itemVariants}
-            onClick={() => handleServiceNavigation('shuttlePay')}
+            onClick={() => handleServiceNavigation('/shuttle-pay')}
             className="relative bg-gradient-to-br from-sabi-blue to-sabi-green p-6 rounded-2xl shadow-soft-lg cursor-pointer text-sabi-white overflow-hidden"
           >
             <div className="relative z-10">
@@ -82,14 +80,12 @@ const SabiDashboardScreen = ({ onNavigate }) => {
             <Bus size={120} className="absolute -right-5 -bottom-5 text-sabi-white/10 z-0" />
           </motion.div>
 
-          {/* FIX: Added dark theme text color */}
           <motion.h2 variants={itemVariants} className="text-sabi-dark dark:text-sabi-white font-bold text-lg mt-8 mb-4">
             Explore Other Services
           </motion.h2>
 
           <motion.div variants={itemVariants} className="grid grid-cols-2 gap-4">
             
-            {/* --- FIX: Restored the faint gradient backgrounds --- */}
             <div 
               onClick={handleComingSoon} 
               className="bg-gradient-to-br from-sabi-purple/10 to-sabi-blue/10 p-4 rounded-2xl shadow-soft space-y-2 cursor-pointer transition-transform duration-200 hover:scale-105"

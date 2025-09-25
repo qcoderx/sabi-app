@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useLoader } from './context/LoaderContext';
 
@@ -13,80 +14,39 @@ import QRCodeScreen from './screens/driver/QRCodeScreen';
 import SettingsScreen from './screens/SettingsScreen';
 
 function AppContent() {
-  const [appState, setAppState] = useState('loading');
-  const [previousState, setPreviousState] = useState('loading'); // For navigating back from settings
+  const location = useLocation();
+  const navigate = useNavigate();
   const { performAction } = useLoader();
 
-  // A robust navigation handler
-  const navigateTo = (newState) => {
-    setPreviousState(appState);
-    setAppState(newState);
-  };
-
   const handleRoleSelect = (role) => {
-    if (role === 'student') {
-      performAction(() => {
-        navigateTo('dashboard');
-      });
-    } else {
-      navigateTo('driverLogin');
-    }
+    performAction(() => {
+      if (role === 'student') {
+        navigate('/dashboard');
+      } else {
+        navigate('/driver/login');
+      }
+    });
   };
 
   const handleDriverLogin = () => {
     performAction(() => {
-      navigateTo('driverDashboard');
+      navigate('/driver/dashboard');
     });
   };
 
   return (
     <AnimatePresence mode="wait">
-      {appState === 'loading' && (
-        <SplashScreen
-          key="splash"
-          onAnimationComplete={() => navigateTo('welcome')}
-        />
-      )}
-      {appState === 'welcome' && (
-        <motion.div key="welcome" className="h-full">
-          <WelcomeScreen onNext={() => navigateTo('roleSelection')} />
-        </motion.div>
-      )}
-      {appState === 'roleSelection' && (
-        <motion.div key="roleSelection" className="h-full">
-          <RoleSelectionScreen onSelectRole={handleRoleSelect} />
-        </motion.div>
-      )}
-      {appState === 'dashboard' && (
-        <motion.div key="dashboard" className="h-full">
-          <SabiDashboardScreen onNavigate={navigateTo} />
-        </motion.div>
-      )}
-      {appState === 'shuttlePay' && (
-        <motion.div key="shuttlePay" className="h-full">
-          <ShuttlePayScreen onBack={() => navigateTo('dashboard')} />
-        </motion.div>
-      )}
-      {appState === 'driverLogin' && (
-        <motion.div key="driverLogin" className="h-full">
-          <DriverLoginScreen onLogin={handleDriverLogin} />
-        </motion.div>
-      )}
-      {appState === 'driverDashboard' && (
-        <motion.div key="driverDashboard" className="h-full">
-          <DriverDashboardScreen onNavigate={navigateTo} />
-        </motion.div>
-      )}
-      {appState === 'qrCode' && (
-        <motion.div key="qrCode" className="h-full">
-          <QRCodeScreen onBack={() => navigateTo('driverDashboard')} />
-        </motion.div>
-      )}
-      {appState === 'settings' && (
-        <motion.div key="settings" className="h-full">
-          <SettingsScreen onBack={() => setAppState(previousState)} />
-        </motion.div>
-      )}
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<SplashScreen onAnimationComplete={() => navigate('/welcome')} />} />
+        <Route path="/welcome" element={<WelcomeScreen onNext={() => navigate('/roles')} />} />
+        <Route path="/roles" element={<RoleSelectionScreen onSelectRole={handleRoleSelect} />} />
+        <Route path="/dashboard" element={<SabiDashboardScreen />} />
+        <Route path="/shuttle-pay" element={<ShuttlePayScreen />} />
+        <Route path="/driver/login" element={<DriverLoginScreen onLogin={handleDriverLogin} />} />
+        <Route path="/driver/dashboard" element={<DriverDashboardScreen />} />
+        <Route path="/driver/qr" element={<QRCodeScreen />} />
+        <Route path="/settings" element={<SettingsScreen />} />
+      </Routes>
     </AnimatePresence>
   );
 }

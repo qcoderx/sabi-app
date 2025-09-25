@@ -1,7 +1,5 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-// --- CHANGE IS HERE ---
-// Replaced the non-existent 'SteeringWheel' with 'Car'
 import { GraduationCap, Car, ArrowRight } from 'lucide-react'; 
 import SabiLogo from '../assets/images/pic2.png';
 
@@ -57,7 +55,6 @@ const RoleSelectionScreen = ({ onSelectRole }) => {
           onClick={() => onSelectRole('driver')}
           className="flex items-center p-6 bg-sabi-gray-light dark:bg-sabi-dark-blue-light border border-gray-200 dark:border-gray-700 rounded-2xl cursor-pointer"
         >
-          {/* --- AND CHANGE IS HERE --- */}
           <Car size={40} className="text-sabi-green" /> 
           <div className="ml-4 flex-1">
             <h2 className="font-bold text-lg text-sabi-dark dark:text-sabi-white">I'm a Driver</h2>
