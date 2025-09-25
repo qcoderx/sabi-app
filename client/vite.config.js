@@ -1,18 +1,18 @@
-// client/vite.config.js
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vite';
 
 export default defineConfig({
-  // Make sure the base is set to '/'
-  base: '/',
-
+  // This ensures that all asset paths in the built index.html are absolute (e.g., /assets/index.js)
+  // This is crucial for react-router-dom to work on any URL.
+  base: '/', 
+  
   server: {
     host: true,
     port: 5173,
     proxy: {
       '/api': {
-        target: 'http://localhost:5000', // Your backend server URL
+        target: 'http://localhost:5000',
         changeOrigin: true,
       }
     }
   },
-})
+});
