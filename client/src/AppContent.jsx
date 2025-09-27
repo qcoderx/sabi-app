@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import { useLoader } from './context/LoaderContext';
 
 import SplashScreen from './screens/SplashScreen';
@@ -38,7 +38,7 @@ function AppContent() {
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<SplashScreen onAnimationComplete={() => navigate('/welcome')} />} />
-        <Route path="/welcome" element={<WelcomeScreen onNext={() => navigate('/roles')} />} />
+        <Route path="/welcome" element={<WelcomeScreen />} />
         <Route path="/roles" element={<RoleSelectionScreen onSelectRole={handleRoleSelect} />} />
         <Route path="/dashboard" element={<SabiDashboardScreen />} />
         <Route path="/shuttle-pay" element={<ShuttlePayScreen />} />
